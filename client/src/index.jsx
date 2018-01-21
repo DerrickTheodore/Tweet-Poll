@@ -197,8 +197,6 @@ class App extends React.Component {
       negativeTweets,
       neutralTweets
 
-    }, ()=>{console.log("neg", this.state.negAverage, "pos", this.state.posAverage, "neut", this.state.neutAverage)})
-
     })
     axios.post('/database', {average: newAverage, searchTerm: searchTerm});
   }
