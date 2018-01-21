@@ -787,28 +787,3 @@ module.exports = {
     ]
 }
 
-avatar_url:
-"http://pbs.twimg.com/profile_images/737459039865446402/5_Lm25ol_normal.jpg"
-searchTerm:
-"Javascript React"
-sentimentDataObject:
-Array[6]
-timeStamp:
-"Sat Jan 20 18:34:23 +0000 2018"
-tweetBody:
-"react-c2c - Performant and lightweight copy to clipboard component for react ... https://t.co/cHbFRoGPPo  #npm #javascript #nodejs"
-user_location:
-""
-user_name:
-"dailyJsPackages"
-
-magnitude:
-0
-name:
-"copy"
-salience:
-0.2408379465341568
-score:
-0
-type:
-"OTHER"
