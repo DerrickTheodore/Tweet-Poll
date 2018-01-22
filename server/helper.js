@@ -127,13 +127,18 @@ getTweets = (st, cb, sp) => {
 				//and when resolved decorate /
 				//seledtedDatas key/value/////
 				//////////////////////////////
+				/**
+				 * TODO:
+				 * 1) sanitize tweets of @text & https:text
+				 * 2) add encoding type [*]
+				 */
 				const document = {
 								content: tweet.retweeted_status ? tweet.retweeted_status.full_text : tweet.full_text,
 								type: 'PLAIN_TEXT',
 							};
 					return new Promise((resolve, reject) => {		
 						googleSentiment 
-						.analyzeEntitySentiment({document: document})
+						.analyzeEntitySentiment({document: document, encodingType: "UTF8"})
 						.then(results => {
 							const entities = results[0].entities;
 							let sentimentData;
