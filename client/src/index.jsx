@@ -126,7 +126,7 @@ class App extends React.Component {
 
   submitQuery(e) {
     e.preventDefault();
-    this.state.searchTerm === '' ? $('.search.container').addClass('error') : this.getAllTweets(this.state.searchTerm); //add extra searchParameter functionallity
+    this.state.searchTerm === '' ? $('.search.container').addClass('error') : this.getAllTweets(this.state.searchTerm, 'hash'); //add extra searchParameter functionallity
   }
 
   getAllTweets(term, filter) {//add extra searchParameter functionallity
