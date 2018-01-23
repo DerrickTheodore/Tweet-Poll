@@ -19,36 +19,36 @@ var db = require('../database/index.js');
 var googleSentiment = require('./googleAPI.js');
 
 
-cronJob = () => {
-	db.getAllTermData((res) => {
-	// step one - get all search terms
-    res.forEach((term) => {
-      term = term || 'flock';
-    // iterate over all search terms
-      getTweets(term, (data) => {
-      	// get new tweets for each term
-        var neg = [];
+// cronJob = () => {
+// 	db.getAllTermData((res) => {
+// 	// step one - get all search terms
+//     res.forEach((term) => {
+//       term = term || 'flock';
+//     // iterate over all search terms
+//       getTweets(term, (data) => {
+//       	// get new tweets for each term
+//         var neg = [];
 
-        data.forEach((tweet) => {
-        	// iterate through all tweets for that term, and calculate average sentiment
-          var score = sentiment(tweet.tweetBody).score;
-          if (score < 0 ) {
-            neg.push(tweet);
-          }
-        });
+//         data.forEach((tweet) => {
+//         	// iterate through all tweets for that term, and calculate average sentiment
+//           var score = sentiment(tweet.tweetBody).score;
+//           if (score < 0 ) {
+//             neg.push(tweet);
+//           }
+//         });
 
-        var average = (neg.length/data.length) * 100
-        // save new data to database of se
-        db.save({
-          searchTerm: term.searchTerm,
-          averageScore: average,
-          searchHour: Date.now()
-        });
+//         var average = (neg.length/data.length) * 100
+//         // save new data to database of se
+//         db.save({
+//           searchTerm: term.searchTerm,
+//           averageScore: average,
+//           searchHour: Date.now()
+//         });
 
-      });
-    });
-  });
-}
+//       });
+//     });
+//   });
+// }
 
 
 getTweetsMulti = (st, cb) => {
@@ -103,6 +103,9 @@ getTweets = (st, cb, sp) => {
 	///////////////////////////////////////////////////////
 	//change search term based on search parameter passed//
 	///////////////////////////////////////////////////////
+
+	let searchTerm = st;
+
 	if(sp === 'hash') {
 		st = '%23' + st; 
 	} else if (sp === 'phrase') {
@@ -110,6 +113,7 @@ getTweets = (st, cb, sp) => {
 	} else if (sp === 'accounts') {
 		st = '%40' + st; 
 	}
+
 
 	const names = `https://api.twitter.com/1.1/users/show.json?screen_name=${st}&include_entities=false`
 	const string = `https://api.twitter.com/1.1/search/tweets.json?q=${st}&count=100&tweet_mode=extended`
@@ -132,45 +136,29 @@ getTweets = (st, cb, sp) => {
 				 * 1) sanitize tweets of @text & https:text
 				 * 2) add encoding type [*]
 				 */
+				let full_tweet = tweet.retweeted_status ? tweet.retweeted_status.full_text : tweet.full_text;
+
+				const sanitizeTweets = (tweet) => {
+					return tweet.replace(/(https\S+\s)/gi, '')
+				}
+
 				const document = {
-								content: tweet.retweeted_status ? tweet.retweeted_status.full_text : tweet.full_text,
+								content: sanitizeTweets(full_tweet),
 								type: 'PLAIN_TEXT',
 							};
 					return new Promise((resolve, reject) => {		
 						googleSentiment 
-						.analyzeEntitySentiment({document: document, encodingType: "UTF8"})
+						.analyzeSentiment({document: document, encodingType: "UTF8"})
 						.then(results => {
-							const entities = results[0].entities;
-							let sentimentData;
-							let result = [];
-							entities.forEach(entity => {
-								if(entity.name.toLocaleLowerCase() === st.toLocaleLowerCase()) {
-								sentimentData = {
-										salience: entity.salience,
-										name: entity.name,
-										type: entity.type,
-										score: entity.sentiment.score,
-										magnitude: entity.sentiment.magnitude
-									}
-									result.push(sentimentData)
-								} else {
-									sentimentData = {
-										salience: entity.salience,
-										name: entity.name,
-										type: entity.type,
-										score: 0,
-										magnitude: 0
-									}
-									result.push(sentimentData)
-								}
-							});
-							resolve(result)
+							const sentimentData = results[0].documentSentiment;
+							resolve(sentimentData)
 						})
 						.catch(err => reject(err))
 					})
 				}))
 				.then((results) => {
 					results.forEach((sentimentData, index) => {
+						console.log(sentimentData)
 						selectedData = {
 							// score: sentiment(tweet).score,
 							searchTerm: st,
@@ -451,6 +439,6 @@ getUserProfileData = (userScreenName, cb) => {
 module.exports.getUserProfileData = getUserProfileData;
 module.exports.getTweets = getTweets;
 module.exports.getSpecificUserTweets = getSpecificUserTweets;
-module.exports.cronJob = cronJob;
+// module.exports.cronJob = cronJob;
 module.exports.getTweetsMulti = getTweetsMulti;
 

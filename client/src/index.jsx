@@ -126,7 +126,7 @@ class App extends React.Component {
 
   submitQuery(e) {
     e.preventDefault();
-    this.state.searchTerm === '' ? $('.search.container').addClass('error') : this.getAllTweets(this.state.searchTerm, 'hash'); //add extra searchParameter functionallity
+    this.state.searchTerm === '' ? $('.search.container').addClass('error') : this.getAllTweets(this.state.searchTerm, ''); //add extra searchParameter functionallity
   }
 
   getAllTweets(term, filter) {//add extra searchParameter functionallity
@@ -148,7 +148,7 @@ class App extends React.Component {
         loading: false
       });
       this.assignAndCount(this.state.tweets, term)
-      this.getHistory();
+      // this.getHistory();
     });
   }
 
@@ -169,12 +169,7 @@ class App extends React.Component {
     if (!tweets.length) return
     let negativeTweets = [], positiveTweets = [], neutralTweets = [], negAverage, posAverage, neutAverage;
     tweets.forEach(tweet => {
-      let score = tweet.sentimentDataObject.reduce((final_score, sentimentObject) => {
-        if( this.state.lastSearchTerm.includes( sentimentObject.name ) ) {
-          final_score += sentimentObject.score;
-        }
-        return final_score;
-      }, 0)
+      let score = tweet.sentimentDataObject.score
       tweet.score = score;
       if (score < 0){
         negativeTweets.push(tweet)
@@ -198,7 +193,7 @@ class App extends React.Component {
       neutralTweets
 
     })
-    axios.post('/database', {average: newAverage, searchTerm: searchTerm});
+    // axios.post('/database', {average: newAverage, searchTerm: searchTerm});
   }
   handleDrop({idx, type}) {
     let positiveTweets = this.state.positiveTweets;
