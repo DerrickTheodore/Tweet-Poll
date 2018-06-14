@@ -162,13 +162,12 @@ class Tweet extends React.Component {
 			<div className="header row">
 				<img className="avatar" src={this.props.tweet.avatar_url}></img>
 				<h3>
-				{/* {console.log(this.props.tweet)} */}
-					<span>@</span>{this.props.tweet.user_name}
+					<a target="_blank" href={'https://twitter.com/'+this.props.tweet.user_name}><span>@</span>{this.props.tweet.user_name}</a>
 				</h3>
 			</div>
 
 			<div className="tweetText row">
-				<p className="col col-6-of-6">{this.props.tweet.tweetBody}</p>
+				<p className="col col-6-of-6" dangerouslySetInnerHTML={{ __html: this.props.tweet.tweetBody }}></p>
 				<span className="timeStamp col right-3-of-6">{this.props.tweet.created_at}</span>
 			</div>
 			<hr/>

@@ -1,6 +1,4 @@
 .DS_Store
 node_modules
-config/twitter.js
-client/dist/bundle.js
 package-lock.json
 WhattheFlock-ff196bb36222.json

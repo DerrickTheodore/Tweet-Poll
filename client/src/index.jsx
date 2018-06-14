@@ -152,6 +152,14 @@ class App extends React.Component {
     });
   }
 
+<<<<<<< HEAD
+=======
+  getAverage(tweets, searchTerm) {
+    let average = this.assignAndCount(tweets);
+    axios.post('/database', {average, searchTerm: searchTerm});
+  }
+
+>>>>>>> af5806448f09d4661026f4c958a52ba271b4c576
   getUserData() {
     if(this.state.clickedUser) {
       axios.post(`/UserProfileData`, {clickedUser: this.state.clickedUser})
@@ -267,6 +275,44 @@ class App extends React.Component {
     .then(names => {
       console.log(names)
     })
+
+    tweets.map((message) => {
+      var score = sentiment(message.tweetBody).score;
+      message.score = score;
+
+      var text = message.tweetBody.split(' ');
+
+      // parse each word in tweet and url-ify if it's a url
+      text.forEach((word,idx) => {
+        if ( word.includes('http') ) {
+          text[idx] = '<a target=\"_blank\" href=\'' + word + '\'>' + word + '</a>';
+        } else if (word.includes('@')) {
+          text[idx] = '<a target=\"_blank\" href=\'https://twitter.com/' + word.slice(1) + '\'>' + word + '</a>';
+        }
+      });
+
+      message.tweetBody = text.join(' ');
+
+      if ( score < 0 ) {
+        // add negative tweets to negativeTweets array
+        this.setState({
+          negativeTweets: [...this.state.negativeTweets, message]
+        });
+      } else if ( score > 0 ) {
+        // add positive tweets to positiveTweets array
+        this.setState({
+          positiveTweets: [...this.state.positiveTweets, message]
+        });
+      }
+    });
+
+    var newAverage = (this.state.negativeTweets.length / this.state.tweets.length) * 100;
+
+    this.setState({
+      average: newAverage
+    });
+
+    axios.post('/database', {average: newAverage, searchTerm: searchTerm});
   }
 
   componentWillMount() {
