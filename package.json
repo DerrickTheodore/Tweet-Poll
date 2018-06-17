@@ -1,13 +1,13 @@
 {
-  "name": "Greenfield",
+  "name": "tweetpoll",
   "version": "1.0.0",
-  "description": "Greenfield Project",
+  "description": "TweetPoll",
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js"
   },
-  "author": "Aaron Chan / Team Archimedes",
+  "author": "Derrick Theodore, Chris Peter, Jackie Wang, Gustaf Bustard",
   "license": "MIT",
   "browserslist": [
     "> 1%",
