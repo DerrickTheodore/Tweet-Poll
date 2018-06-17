@@ -31,7 +31,8 @@ import Navbar from './navBar.jsx'
 //EXAMPLE DATA//
 ////////////////
 import userDataExample from '../../profileExampleData.js';
-import { userStatuses } from '../../profileExampleData.js'
+import { userStatuses } from '../../profileExampleData.js';
+import tweetDataExample from '../../tweetExampleData.js';
 ////////////////
 
 
@@ -152,14 +153,11 @@ class App extends React.Component {
     });
   }
 
-<<<<<<< HEAD
-=======
   getAverage(tweets, searchTerm) {
     let average = this.assignAndCount(tweets);
     axios.post('/database', {average, searchTerm: searchTerm});
   }
 
->>>>>>> af5806448f09d4661026f4c958a52ba271b4c576
   getUserData() {
     if(this.state.clickedUser) {
       axios.post(`/UserProfileData`, {clickedUser: this.state.clickedUser})
@@ -316,7 +314,16 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.getAllTweets('President Trump', '');//add extra searchParameter functionallity
+    this.setState({
+      tweets: tweetDataExample,
+      lastSearchTerm: 'Flock',
+      searchTerm: '',
+      previousSearches: [...this.state.previousSearches, ''],
+      loading: false
+    }, () => {
+      this.assignAndCount(this.state.tweets, '')
+    });
+    //this.getAllTweets('President Trump', '');//add extra searchParameter functionallity
   }
 
   componentDidMount() {
@@ -377,8 +384,8 @@ class App extends React.Component {
             }
 
             <div className="siteNav header col col-6-of-6">
-              <h1>What the Flock?</h1>
-              <img src="./images/poop_logo.png" alt="" className="logo"/>
+              <h1>Tweet Poll</h1>
+              <img src="./images/twitter_bird.png" alt="" className="logo"/>
             </div>
               
             <Modal
@@ -442,8 +449,8 @@ class App extends React.Component {
       return(
         <div className="row">
         <div className="siteNav header col col-6-of-6">
-          <h1>What the Flock?</h1>
-          <img src="./images/poop_logo.png" alt="" className="logo"/>
+          <h1>Tweet Poll</h1>
+          <img src="./images/twitter_bird.png" alt="" className="logo"/>
           <button onClick={this.compareClick}> Test</button>          
         </div>
         <Search submitQuery={this.submitQuery} searchTerm={this.state.searchTerm} getAllTweets={this.getAllTweets} handleInputChange={this.handleInputChange}/>
