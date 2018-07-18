@@ -57,10 +57,8 @@ class Tweet extends React.Component {
 	}
 	
 	find(name){
-		// console.log(name)
         axios.get('/userBattle', {params:{user: name}})
             .then((res)=>{
-				// console.log(res.data)
 				this.setState({neg: res.data.neg, pos: res.data.pos}, ()=>{this.setState({canOpen: "inline-block"})} )
 			})
     }
@@ -84,7 +82,7 @@ class Tweet extends React.Component {
 	chart(data) {
 		console.log('chart func');
 		c3.generate({
-			bindto: ".chart"+this.props.id, //chart goes in to here
+			bindto: ".chart"+this.props.id, 
 			data: {
 				columns: [
 					['data', Math.abs(data)]

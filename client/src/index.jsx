@@ -160,14 +160,15 @@ class App extends React.Component {
 
   getUserData() {
     if(this.state.clickedUser) {
-      axios.post(`/UserProfileData`, {clickedUser: this.state.clickedUser})
-      .then((results) => {
-        let UserProfileDataObject = results.data;
+      // axios.post(`/UserProfileData`, {clickedUser: this.state.clickedUser})
+      // .then((results) => {
+      setTimeout(() => {
+        let UserProfileDataObject = userDataExample;
         this.setState({clickedUserData: UserProfileDataObject}, () => {
           this.setState({userModalStylingSheet: 'user-modal-content'})
           this.setState({clickedUserDataContentLoaded: true})
         })
-      })
+      }, 300);
     }
   }
 
