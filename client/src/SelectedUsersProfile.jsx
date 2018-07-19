@@ -5,7 +5,7 @@ import { ListItem, FlatButton }  from 'material-ui';
 import ProfileTweet from './ProfileTweet.jsx';
 import Graph from './Graph.jsx';
 import MiniProfile from './MiniProfile.jsx';
-import sentiment from 'sentiment';
+import sentiment from '../../server/index.js';
 import c3 from 'c3';
 import IconButton from 'material-ui/IconButton';
 import ActionNavigationClose from 'material-ui/svg-icons/navigation/close';
@@ -16,7 +16,6 @@ class SelectedUsersProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      // clickedUserDataContentLoaded: false,
       navbarChoice: {
         index: 0, 
         list: "userStatuses"
@@ -24,12 +23,6 @@ class SelectedUsersProfile extends React.Component {
       scores: ["scores"]
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if(this.props.userData.name !== nextProps.userData.name) {
-  //     this.setState({clickedUserDataContentLoaded: !this.state.clickedUserDataContentLoaded})
-  //   }
-  // }
 
   render() {
     const styles = {
