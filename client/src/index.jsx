@@ -74,6 +74,7 @@ class App extends React.Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.clickHandlerClose = this.clickHandlerClose.bind(this);
     this.friendClickHandler = this.friendClickHandler.bind(this);
     this.storeUser = this.storeUser.bind(this);
     this.handleFaves = this.handleFaves.bind(this);
@@ -92,6 +93,12 @@ class App extends React.Component {
         this.getUserData()
       })
     })
+  }
+
+  clickHandlerClose() {
+    this.setState({clicked: !this.state.clicked}, () => {
+      this.setState({clickedUserDataContentLoaded: !this.state.clickedUserDataContentLoaded});
+    });
   }
 
   friendClickHandler(user) {
@@ -159,7 +166,6 @@ class App extends React.Component {
   }
 
   getUserData() {
-    if(this.state.clickedUser) {
       // axios.post(`/UserProfileData`, {clickedUser: this.state.clickedUser})
       // .then((results) => {
       setTimeout(() => {
@@ -169,7 +175,6 @@ class App extends React.Component {
           this.setState({clickedUserDataContentLoaded: true})
         })
       }, 300);
-    }
   }
 
   assignAndCount(tweets) {
@@ -409,7 +414,8 @@ class App extends React.Component {
             >
               <SelectedUsersProfile 
                 userData={this.state.clickedUserData}
-                clickHandler={this.clickHandler}
+                clickedUserDataContentLoaded={this.state.clickedUserDataContentLoaded}
+                clickHandlerClose={this.clickHandlerClose}
                 friendClickHandler={this.friendClickHandler}
               />
             </Modal>

@@ -16,7 +16,7 @@ class SelectedUsersProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      clickedUserDataContentLoaded: false,
+      // clickedUserDataContentLoaded: false,
       navbarChoice: {
         index: 0, 
         list: "userStatuses"
@@ -25,11 +25,11 @@ class SelectedUsersProfile extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(this.props.userData.name !== nextProps.userData.name) {
-      this.setState({clickedUserDataContentLoaded: !this.state.clickedUserDataContentLoaded})
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if(this.props.userData.name !== nextProps.userData.name) {
+  //     this.setState({clickedUserDataContentLoaded: !this.state.clickedUserDataContentLoaded})
+  //   }
+  // }
 
   render() {
     const styles = {
@@ -65,7 +65,7 @@ class SelectedUsersProfile extends React.Component {
         bottom: 85
       }
     };
-    if(!this.state.clickedUserDataContentLoaded) {
+    if(!this.props.clickedUserDataContentLoaded) {
       return (
         <Loader />
       ) 
@@ -78,7 +78,7 @@ class SelectedUsersProfile extends React.Component {
             <IconButton
                 iconStyle={styles.mediumIcon}
                 style={Object.assign(styles.medium, styles.closeButton)}
-                onClick={this.props.clickHandler}
+                onClick={this.props.clickHandlerClose}
               >
                 <ActionNavigationClose/>
             </IconButton>
