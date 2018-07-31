@@ -369,7 +369,15 @@
   overflow-x: auto;
 }
 
+.dropDownSelect {
+  width: 50%;
+}
+
 .profile-list-status-item {
+
+}
+
+.menu-button {
 
 }
 

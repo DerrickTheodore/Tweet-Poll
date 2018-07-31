@@ -5,7 +5,7 @@ import { ListItem, FlatButton }  from 'material-ui';
 import ProfileTweet from './ProfileTweet.jsx';
 import Graph from './Graph.jsx';
 import MiniProfile from './MiniProfile.jsx';
-import sentiment from '../../server/index.js';
+import sentiment from 'sentiment';//'../../server/index.js'; //FIX THIS! ! 
 import c3 from 'c3';
 import IconButton from 'material-ui/IconButton';
 import ActionNavigationClose from 'material-ui/svg-icons/navigation/close';
